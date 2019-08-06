@@ -7,3 +7,4 @@ edition = "2018"
 [dependencies]
 rocket = "0.4.1"
 rocket_codegen = "0.4.1"
+diesel = { version = "1.0.0", feature = ["mysql"]}

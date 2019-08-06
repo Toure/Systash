@@ -2,10 +2,8 @@
 like starting and stopping services, configuring cron schedules, and
 generic shell execution.
 */
+mod commander {
 
-struct Commander {
-    servicename: String,
-    filelock: String,
-    database: String,
-    
+    pub mod 
+
 }
