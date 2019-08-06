@@ -1,11 +1,12 @@
 /* File manager will be responsible for compressing, decompressing, snapshots,
 and validation of backups.
 */
-struct Inputs {
-    filepath: String,
-    nodename: String,
-    uuid: String
-
+struct FileManager {
+    compression: String,
+    decompression: String,
+    path: String,
+    snapshot: String,
+    validate: String
 }
 
 mod graphene {

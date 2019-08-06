@@ -5,6 +5,7 @@ authors = ["Toure <tdunnon@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-rocket = "0.4.1"
-rocket_codegen = "0.4.1"
-diesel = { version = "1.0.0", feature = ["mysql"]}
+rocket = "0.4.2"
+rocket_codegen = "0.4.2"
+diesel = { version = "1.4.2", features = ["postgres"] }
+dotenv = "0.14.1"
