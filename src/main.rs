@@ -3,7 +3,7 @@ use structopt::StructOpt;
 
 /// A basic example
 #[derive(StructOpt, Debug)]
-#[structopt(name = "Graphene")]
+#[structopt(name = "graphene")]
 struct Opt {
     // A flag, true if used in the command line. Note doc comment will
     // be used for the help message of the flag. The name of the
@@ -16,7 +16,7 @@ struct Opt {
     // gzip compression.
     /// archive type (zip, tgz = "tar gzip")
     #[structopt(short = "a", long, default_value = "tgz")]
-    archive: u8,
+    archive: String,
 
     // Bootstrap flag, is used to activate the creation of an iso image.
     /// Create bootable iso image.
@@ -39,5 +39,6 @@ struct Opt {
 
 fn main() {
     let opt = Opt::from_args();
-    println!("{:#?}", opt);
+    // println!("{:#?}", opt);
+    println!("debug level -> {}", opt.debug)
 }
