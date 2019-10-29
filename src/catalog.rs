@@ -12,37 +12,42 @@ struct Catolog {
     time_created: Timespec,
     data: Option<Vec<u8>>,
 }
+impl Catolog {
+    // add the option later to determine the type
+    // of connection, ie: in memory or on disk.
+    pub fn new() -> Catolog{
+        Connection::open_in_memory()?;
+    }
 
-fn main() -> Result<()> {
-    
-    
-   
-}
-
-fn init_database() {
+    pub fn init_database() {
     conn.execute(
         "CREATE TABLE catalog (
                   id              INTEGER PRIMARY KEY,
                   file            TEXT NOT NULL,
                   time_created    TEXT NOT NULL,
-                  data            BLOB
                   )",
         NO_PARAMS,
     )?;
+    }   
+
+    pub fn check_database(conn) -> Result<()> {
+        // check database status for creation
+
+    }
+
+    pub fn write_info(conn ) -> Result<()> {
+
+        conn.execute(
+            "INSERT INTO catalog (file, time_created, data)
+                    VALUES (?1, ?2, ?3)",
+            &[&me.file as &ToSql, &me.time_created, &me.data],
+        )?;
+        Ok(())
+    }
+
+    pub fn read_info(conn) {
+        
+    }
 }
 
-fn write_info() -> Result<()> {
-    let conn = Connection::open_in_memory()?;
 
-    
-     conn.execute(
-        "INSERT INTO catalog (file, time_created, data)
-                  VALUES (?1, ?2, ?3)",
-        &[&me.file as &ToSql, &me.time_created, &me.data],
-    )?;
-    Ok(())
-}
-
-fn read_info() {
-    
-}

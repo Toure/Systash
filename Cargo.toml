@@ -1,5 +1,5 @@
 [package]
-name = "Graphene"
+name = "graphene"
 version = "0.1.0"
 authors = ["Toure Dunnon <tdunnon@gmail.com>"]
 edition = "2018"

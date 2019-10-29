@@ -1,7 +1,7 @@
 use std::path::PathBuf;
-use structopt::StructOpt;
-
-/// A basic example
+use structopt::StructOpt;   
+  
+    
 #[derive(StructOpt, Debug)]
 #[structopt(name = "graphene")]
 struct Opt {
@@ -9,36 +9,58 @@ struct Opt {
     // be used for the help message of the flag. The name of the
     // argument will be, by default, based on the name of the field.
     /// Activate debug mode
-    #[structopt(short, long)]
+    #[structopt(short = "d", long = "debug")]
     debug: bool,
-    
-    // Compresion type selection the default will be tar archive with
-    // gzip compression.
-    /// archive type (zip, tgz = "tar gzip")
-    #[structopt(short = "a", long, default_value = "tgz")]
-    archive: String,
 
-    // Bootstrap flag, is used to activate the creation of an iso image.
-    /// Create bootable iso image.
-    #[structopt(short = "b", long)]
-    bootstrap: bool,
+    // Backup behaviour flag, this will indicate what action to take.
+    /// Create a system backup.
+    #[structopt(short = "b", long = "backup")]
+    backup: bool,
 
-    /// Output file
-    #[structopt(short = "o", long, parse(from_os_str))]
+    // Restore behaviour flag.
+    /// Restore a given file or path.
+    #[structopt(short = "r", long = "restore")]
+    restore: bool,
+
+    /// Build system recovery image.
+    #[structopt(short ="i", long = "recovery_image")]
+    build_recovery: bool,
+
+    /// Storage path for backup and recovery images.
+    #[structopt(short = "o", long = "output", parse(from_os_str))]
     output: PathBuf,
 
-    /// Files to process
-    #[structopt(name = "FILE", parse(from_os_str))]
-    files: Vec<PathBuf>,
+    /// Backup path to process.
+    #[structopt(name = "Path", parse(from_os_str))]
+    path: Vec<PathBuf>,
+
+    /// Timestamp for which to recovery from.
+    #[structopt(short = "t", long = "timestamp")]
+    timestamp: String,
+
+    /// System label or node name to attach to the backup image.
+    #[structopt(short = "l", long = "label")]
+    label: String,
+
+    /// Boot loader type [ GRUB or GRUB2 ]
+    #[structopt(short = "B", long = "bootloader")]
+    bootloader: String,
+
+    // Backup type will allow for a full system back up or
+    // differential. Default should be differential for 
+    // time and resource efficentcies.
+    /// Backup Type [ Full or Differential ]
+    #[structopt(short = "T", long = "type")]
+    backuptype: String,
     
-    // The number of occurrences of the `v/verbose` flag
-    /// Verbose mode (-v, -vv, -vvv, etc.)
-    #[structopt(short, long, parse(from_occurrences))]
-    verbose: u8,
 }
+        
+    
 
 fn main() {
     let opt = Opt::from_args();
     // println!("{:#?}", opt);
-    println!("debug level -> {}", opt.debug)
+    //println!("debug level -> {}", opt.debug)
+    println!("file path that will be used. {:#?}", opt.path);
+
 }
