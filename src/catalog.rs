@@ -6,16 +6,16 @@ use rusqlite::{Connection, Result, NO_PARAMS};
 use time::Timespec;
 
 #[derive(Debug)]
-struct Catolog {
+struct Catalog {
     id: i32,
     file: String,
     time_created: Timespec,
     data: Option<Vec<u8>>,
 }
-impl Catolog {
+impl Catalog {
     // add the option later to determine the type
     // of connection, ie: in memory or on disk.
-    pub fn new() -> Catolog{
+    pub fn new() -> Catalog{
         Connection::open_in_memory()?;
     }
 

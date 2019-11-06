@@ -1,7 +1,11 @@
 use std::path::PathBuf;
 use structopt::StructOpt;   
   
-    
+mod compression; // compression library
+//mod catalog; // database interface
+mod commander; // system level library
+
+
 #[derive(StructOpt, Debug)]
 #[structopt(name = "graphene")]
 struct Opt {
