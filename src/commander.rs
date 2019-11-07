@@ -1,20 +1,25 @@
+// Commander module will serve as a place to interface with shell utilities, until
+// they are converted to native rust.
+
 use std::process::Command;
 
-
-fn mkisofs(mkisofs_opt: String, outputfile: String, label: String) {
+#[allow(dead_code)]
+fn mkisofs(mkisofs_opt: String, outputfile: &str, label: &str) {
     let mut mkisofs = Command::new("mkisofs");
-    mkisofs.arg("-o {}", outputfile)
-           .arg("-b isolinux/isolinux.bin")
-           .arg("-c isolinux/boot.cat")
+    mkisofs.args(&["-o {}", outputfile])
+           .args(&["-b", "isolinux/isolinux.bin"])
+           .args(&["-c", "isolinux/boot.cat"])
            .arg("-no-emul-boot")
-           .arg("-boot-load-size 4")
+           .args(&["-boot-load-size", "4"])
            .arg("-boot-info-table")
            .arg("-R")
            .arg("-J")
-           .arg("-volid {}", label);
+           .args(&["-volid", label])
+           .output()
+           .expect("Failed to execute mkisofo");
 }
 
+#[allow(dead_code)]
 fn mod_grub() {
-
+    unimplemented!()
 }
-

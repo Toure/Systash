@@ -12,41 +12,32 @@ struct Catalog {
     time_created: Timespec,
     data: Option<Vec<u8>>,
 }
+
+#[allow(dead_code)]
 impl Catalog {
     // add the option later to determine the type
     // of connection, ie: in memory or on disk.
+    
     pub fn new() -> Catalog{
-        Connection::open_in_memory()?;
+        unimplemented!()
     }
 
     pub fn init_database() {
-    conn.execute(
-        "CREATE TABLE catalog (
-                  id              INTEGER PRIMARY KEY,
-                  file            TEXT NOT NULL,
-                  time_created    TEXT NOT NULL,
-                  )",
-        NO_PARAMS,
-    )?;
+        unimplemented!()
     }   
 
-    pub fn check_database(conn) -> Result<()> {
+    pub fn check_database(){
         // check database status for creation
+        unimplemented!()
 
     }
 
-    pub fn write_info(conn ) -> Result<()> {
-
-        conn.execute(
-            "INSERT INTO catalog (file, time_created, data)
-                    VALUES (?1, ?2, ?3)",
-            &[&me.file as &ToSql, &me.time_created, &me.data],
-        )?;
-        Ok(())
+    pub fn write_info() -> Result<()> {
+        unimplemented!()
     }
 
-    pub fn read_info(conn) {
-        
+    pub fn read_info() {
+        unimplemented!()
     }
 }
 

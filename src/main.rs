@@ -1,14 +1,15 @@
 use std::path::PathBuf;
-use structopt::StructOpt;   
-  
-mod compression; // compression library
-//mod catalog; // database interface
+use structopt::StructOpt; 
+
+
+mod data_manager; // compression library
+mod catalog; // database interface
 mod commander; // system level library
 
 
 #[derive(StructOpt, Debug)]
 #[structopt(name = "graphene")]
-struct Opt {
+pub struct Opt {
     // A flag, true if used in the command line. Note doc comment will
     // be used for the help message of the flag. The name of the
     // argument will be, by default, based on the name of the field.
@@ -58,13 +59,29 @@ struct Opt {
     backuptype: String,
     
 }
-        
-    
 
 fn main() {
     let opt = Opt::from_args();
+
     // println!("{:#?}", opt);
     //println!("debug level -> {}", opt.debug)
     println!("file path that will be used. {:#?}", opt.path);
 
 }
+#[allow(dead_code)]
+fn create_backup(backup_type: String, label: String, output: String, 
+                 backup_path: String){
+    unimplemented!()
+}
+
+#[allow(dead_code)]
+fn build_recovery_image(label: String, time_stamp: String, 
+                        boot_loader: String, backup_path: String) {
+    unimplemented!()
+}
+
+#[allow(dead_code)]
+fn restore_system(label: String, backup_type: String, time_stamp: String,
+                  backup_path: String) {
+    unimplemented!()
+} 
