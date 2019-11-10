@@ -1,42 +1,24 @@
 // Catalog module will contain logic to record backup information such as files written,
 // and other attributes.
+use std::time::{Duration, Instant};
 
-use rusqlite::types::ToSql;
-use rusqlite::{Connection, Result, NO_PARAMS};
-use time::Timespec;
-
-#[derive(Debug)]
-struct Catalog {
-    id: i32,
+pub struct Catalog {
+    label: i32,
     file: String,
-    time_created: Timespec,
-    data: Option<Vec<u8>>,
+    time_created: String,
 }
 
 #[allow(dead_code)]
 impl Catalog {
-    // add the option later to determine the type
-    // of connection, ie: in memory or on disk.
+    // 
     
     pub fn new() -> Catalog{
         unimplemented!()
     }
-
-    pub fn init_database() {
-        unimplemented!()
-    }   
-
-    pub fn check_database(){
-        // check database status for creation
-        unimplemented!()
-
-    }
-
-    pub fn write_info() -> Result<()> {
-        unimplemented!()
-    }
-
-    pub fn read_info() {
+    
+    pub fn gen_catalog(label: Sting, filename: String, time_created: String){
+        // Generate catalog will return a document for the system
+        // the corresponds to the backup.
         unimplemented!()
     }
 }

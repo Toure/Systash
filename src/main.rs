@@ -3,9 +3,9 @@ use structopt::StructOpt;
 
 
 mod data_manager; // compression library
-mod catalog; // database interface
+mod catalog; // database document interface
 mod commander; // system level library
-
+mod db; // database helper functions.
 
 #[derive(StructOpt, Debug)]
 #[structopt(name = "graphene")]

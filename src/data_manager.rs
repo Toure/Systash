@@ -18,10 +18,9 @@ impl DataManager{
         unimplemented!()
     }
 
-    fn backup(archive_name: String, 
-            backup_path: String, 
-            backup_logs: String,
-            label: String) -> Result<(), std::io::Error> {
+    fn backup(archive_name: String, backup_path: String, 
+            backup_logs: String, label: String) -> Result<(), std::io::Error> {
+                let archive_name = format!("{}.tar.gz", label); 
                 let tar_gz = File::create(archive_name)?;
                 let enc = GzEncoder::new(tar_gz, Compression::default());
                 let mut tar = tar::Builder::new(enc);
