@@ -23,6 +23,11 @@ Installation will be handled through the package manager or compiled from source
 
 Usage
 -----
+Graphene will allow users to set environmental option in a configuration file: graphene.conf, which 
+will allow for ease of use for single machine archives.
+
+
+
  1. graphene
 
 
