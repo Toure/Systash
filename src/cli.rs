@@ -17,7 +17,20 @@ use std::path::PathBuf;
 use structopt::StructOpt;
 
 #[derive(StructOpt, Debug)]
-#[structopt(name = "graphene")]
+enum ServiceType {
+    Server {
+        ip_address: String,
+        port: String
+    },
+    Client {
+        ip_address: String,
+        port: String
+    }
+
+}
+
+#[derive(StructOpt, Debug)]
+#[structopt(name = "Graphene")]
 pub struct Opt {
     // A flag, true if used in the command line. Note doc comment will
     // be used for the help message of the flag. The name of the
@@ -67,4 +80,10 @@ pub struct Opt {
     #[structopt(short = "T", long = "type")]
     pub backup_type: String,
 
+    // Service Type will be a switch to allow the activation
+    // of a server (API service) or a client (API consumer)
+    /// Service Type selector [ stand-alone, server, client ] if
+    /// none are provided stand-alone is default.
+    #[structopt(subcommand)]
+    service_type: ServiceType
 }

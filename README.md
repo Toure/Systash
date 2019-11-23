@@ -12,9 +12,8 @@ systems through the use of snapshots.
 Installation
 ------------
 Installation will be handled through the package manager or compiled from source:
- - **> dnf install graphene-server**
  - **> dnf install graphene-client** 
- - **> yum install graphene**
+ - **> dnf install graphene**
 
 ### Or:
 
@@ -28,7 +27,7 @@ will allow for ease of use for single machine archives.
 
 
 
- 1. graphene
+ 1. graphene 
 
 
 Supported Platforms
