@@ -53,9 +53,10 @@ pub struct Opt {
     #[structopt(short ="i", long = "recovery_image")]
     pub build_recovery: bool,
 
+    // Storage path will define the path where the im
     /// Storage path for backup and recovery images.
     #[structopt(short = "o", long = "output", parse(from_os_str))]
-    pub output: PathBuf,
+    pub storage_path: PathBuf,
 
     /// Backup path to process.
     #[structopt(name = "Path", parse(from_os_str))]
@@ -68,6 +69,12 @@ pub struct Opt {
     /// System label or node name to attach to the backup image.
     #[structopt(short = "l", long = "label")]
     pub label: String,
+
+    // System group label will allow user to create categories of
+    // machines.
+    /// System group label which allow for logical grouping of machines.
+    #[structopt(short = "s", long = "system_group")]
+    pub system_group: String,
 
     /// Boot loader type [ GRUB or GRUB2 ]
     #[structopt(short = "B", long = "bootloader")]

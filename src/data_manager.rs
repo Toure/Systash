@@ -23,30 +23,25 @@ use std::io::Error;
 use tar::Archive;
 
 
-enum PathType {
-    Backup(String),
-    Restore(String)
-}
-
 struct DataManager{
-    name: String,
+    root_name: String,
     hostname: String,
     backup_type: String,
     system_group: String,
     backup_storage_location: String,
-    path: PathType
+    storage_path: String,
 }
 
 trait Backup {
-    fn new(name: String, hostname: String, backup_type: String, system_group: String,
-        backup_storage_location: String, path: PathType) -> DataManager;
+    fn new(root_name: String, hostname: String, backup_type: String, system_group: String,
+        backup_storage_location: String, storage_path: String) -> DataManager;
 
     fn backup(&self) -> Result<(), Error>;
 }
 
 trait Restore {
-    fn new(name: String, hostname: String, backup_type: String, system_group: String,
-        backup_storage_location: String, path: PathType ) -> DataManager;
+    fn new(root_name: String, hostname: String, backup_type: String, system_group: String,
+        backup_storage_location: String, storage_path: String ) -> DataManager;
 
     fn restore(&self) -> Result<(), Error>;
 
@@ -59,12 +54,14 @@ trait Recover {
 
 impl Backup for DataManager{
 
-    fn new(name: String, hostname: String, backup_type: String, system_group: String,
-               backup_storage_location: String, path: PathType) -> DataManager 
+    fn new(root_name: String, hostname: String, backup_type: String, system_group: String,
+               backup_storage_location: String, storage_path: String) -> DataManager
                {
                    // Entire point for backup struct implementation.
-                   DataManager{name, hostname, backup_type, system_group, 
-                               backup_storage_location, path}
+                   DataManager{
+                       root_name, hostname, backup_type, system_group,
+                               backup_storage_location, storage_path
+                   }
     }
 
     fn backup(&self) -> Result<(), Error> {
@@ -72,7 +69,7 @@ impl Backup for DataManager{
                 let tar_gz = File::create(archive_name)?;
                 let enc = GzEncoder::new(tar_gz, Compression::default());
                 let mut tar = tar::Builder::new(enc);
-                tar.append_dir_all(self.name, self.path).unwrap();
+                tar.append_dir_all(self.root_name, self.storage_path).unwrap();
 
             Ok(())
     }
@@ -80,20 +77,22 @@ impl Backup for DataManager{
 
 impl Restore for DataManager{
 
-    fn new(name: String, hostname: String, backup_type: String, system_group: String,
-        backup_storage_location: String, path: PathType ) -> DataManager 
+    fn new(root_name: String, hostname: String, backup_type: String, system_group: String,
+        backup_storage_location: String, storage_path: String ) -> DataManager
         {
             // Entire point for restore struct implementation.
-            DataManager{name, hostname, backup_type, system_group, 
-                        backup_storage_location, path}
+            DataManager{
+                root_name, hostname, backup_type, system_group,
+                        backup_storage_location, storage_path
+            }
     }
     
     fn restore(&self) -> Result<(), Error> {
-        let restore_file = format!("{}/{}", self.backup_storage_location, self.hostname);
+        let restore_file = format!("{}/{}.tar.gz", self.backup_storage_location, self.hostname);
         let tar_gz = File::open(restore_file)?;
         let tar = GzDecoder::new(tar_gz);
         let mut archive = Archive::new(tar);
-        archive.unpack(self.path::PathType::Restore)?;
+        archive.unpack(self.storage_path)?;
 
         Ok(())
     }
