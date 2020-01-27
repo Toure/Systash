@@ -57,6 +57,14 @@ host = "controller_1"
 ip = "192.168.2.21"
 system_group = "FO_Noth_02"
 
+[backup_path]
+# default path is root, this can be adjusted to include
+# specific paths.
+# base_dir = "/"
+#
+[exclude_path]
+# ignore a specific set of paths.
+exclude_dir = "
 [storage]
 archives = "/foo/storage"
 

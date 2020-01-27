@@ -14,57 +14,50 @@
 //
 // Config parser will allow for default values to be set from a configuration file,
 // such as inventory list, backup schedule, and other features as they are developed.
-extern crate serde_yaml;
-#[macro_use]
-extern crate serde_derive;
-extern crate serde;
+extern crate toml;
 
-use std::collections::BTreeMap;
-use std::error::Error;
-use std::fs::File;
+
 use std::io::prelude::*;
-use std::path::Path;
+use std::io::BufReader;
+use std::fs::File;
+use toml::Value;
 
-#[derive(Deserialize, Debug)]
+
 struct Config {
-    name: String,
-    hostname: String,
+    debug: Bool,
     backup_type: String,
-    system_group: String,
     storage_location: String,
     backup_path: String
+    server: Server,
+    clients: Vec<Client>
 }
 
-trait Parser {
-    fn new(&self);
-    fn parser(&self);
+struct Server {
+    hostname: String,
+    ip: String,
+    system_group: String
 }
 
-impl Parser for Config{
-    fn new(&self){
-        // TODO: create struct loader.
-        unimplemented!()
-    }
-
-    fn parser(&self) -> Result<BTreeMap, Err> {
-        // Create a path to the desired file
-        let path = Path::new("foo.yml");
-        let display = path.display();
-
-        // Open the path in read-only mode, returns `io::Result<File>`
-        let mut file = match File::open(&path) {
-            // The `description` method of `io::Error` returns a string that
-            // describes the error
-            Err(why) => panic!("couldn't open {}: {}", display,
-                                                    why.description()),
-            Ok(file) => file,
-        };
-        // Read the file contents into a string, returns `io::Result<usize>`
-        let mut s = String::new();
-        let content: BTreeMap<String, String> = match file.read_to_string(&mut s) {
-            Err(why) => panic!("couldn't read {}: {}", display,
-                                                    why.description()),
-            Ok(_) => serde_yaml::from_str(&s).unwrap()
-        };
-    }
+struct Client {
+    hostname: String,
+    ip: String,
+    system_group: String
 }
+
+
+pub fn config(filename: &str) -> Config {
+    // config will return a Config struct populated
+    // with data from the configuration file.
+    let token = ["debug", "server", "clients", "storage", "exclude_dir"]
+
+}
+
+fn read_config(filename: &str) -> toml::value::Value {
+    let fh = File::open(filename).expect("unable to open file.");
+    let mut buf_reader = BufReader::new(fh);
+    let mut contents = String::new();
+    buf_reader.read_to_string(&mut contents).unwrap();
+    let settings: Value = toml::from_str(&contents).unwrap();
+    settings
+}
+

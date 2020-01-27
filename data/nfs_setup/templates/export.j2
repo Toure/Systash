@@ -1,0 +1,4 @@
+# This configuration file is generated automatically
+# by Systash.
+
+{{ nfs_storage_folder }} {% for net in nfs_clients_nets %}{{ net }}(rw,sync,no_root_squash,no_subtree_check) {% endfor %}

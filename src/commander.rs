@@ -36,6 +36,8 @@ fn mkisofs(mkisofs_opt: String, outputfile: &str, label: &str) {
 }
 
 #[allow(dead_code)]
-fn mod_grub() {
+pub fn ansible_exec() {
+    // Ansible exec will serve as a interface to
+    // the command line utiliy to carry out predefined roles.
     unimplemented!()
 }
