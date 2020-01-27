@@ -19,7 +19,7 @@
 use std::process::Command;
 
 
-
+#[allow(unused_variables)]
 fn mkisofs(mkisofs_opt: String, outputfile: &str, label: &str) {
     let mut mkisofs = Command::new("mkisofs");
     mkisofs.args(&["-o {}", outputfile])

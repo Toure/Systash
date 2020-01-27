@@ -17,7 +17,7 @@ use std::path::PathBuf;
 use structopt::StructOpt;
 
 #[derive(StructOpt, Debug)]
-enum ServiceType {
+pub enum ServiceType {
     Server {
         ip_address: String,
         port: String
@@ -26,11 +26,10 @@ enum ServiceType {
         ip_address: String,
         port: String
     }
-
 }
 
 #[derive(StructOpt, Debug)]
-#[structopt(name = "Graphene")]
+#[structopt(name = "Systash")]
 pub struct Opt {
     // A flag, true if used in the command line. Note doc comment will
     // be used for the help message of the flag. The name of the
@@ -92,5 +91,5 @@ pub struct Opt {
     /// Service Type selector [ stand-alone, server, client ] if
     /// none are provided stand-alone is default.
     #[structopt(subcommand)]
-    service_type: ServiceType
+    pub service_type: ServiceType
 }

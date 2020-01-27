@@ -1,5 +1,5 @@
 [package]
-name = "graphene"
+name = "systash"
 version = "0.1.0"
 authors = ["Toure Dunnon <tdunnon@gmail.com>"]
 edition = "2018"
@@ -8,7 +8,9 @@ edition = "2018"
 structopt = "0.3.0"
 flate2 = "1.0.11"
 tar = "0.4.26"
-mongodb = "0.4.0"
 serde = "1.0.102"
 serde_derive = "1.0.102"
 serde_yaml = "0.8.11"
+rusqlite = "0.20.0"
+ring = "0.16.9"
+data-encoding = "2.1.2"

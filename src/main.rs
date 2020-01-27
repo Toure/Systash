@@ -15,15 +15,18 @@
 use structopt::StructOpt;
 
 mod cli; //
-
+mod hasher; // generate hash signature for archive.
 mod data_manager; // compression library
 mod commander; // system level library
 mod db; // database helper functions.
 
-
+#[allow(unused_must_use)]
 fn main() {
     let opt = cli::Opt::from_args();
+    let backups = data_manager::Backup::new(opt.)
     // TODO: base logic to drive functionality.
+    let output_filename = String::from("foo.tar.gz");
+    hasher::gen_sum(output_filename);
 
     // println!("{:#?}", opt);
     //println!("debug level -> {}", opt.debug)
@@ -33,19 +36,19 @@ fn main() {
 
 
 #[allow(dead_code)]
-fn create_backup(backup_type: String, label: String, output: String, 
-                 backup_path: String){
+fn create_backup(_backup_type: String, _label: String, _output: String,
+                 _backup_path: String){
     unimplemented!()
 }
 
 #[allow(dead_code)]
-fn build_recovery_image(label: String, time_stamp: String, 
-                        boot_loader: String, backup_path: String) {
+fn build_recovery_image(_label: String, _time_stamp: String,
+                        _boot_loader: String, _backup_path: String) {
     unimplemented!()
 }
 
 #[allow(dead_code)]
-fn restore_system(label: String, backup_type: String, time_stamp: String,
-                  backup_path: String) {
+fn restore_system(_label: String, _backup_type: String, _time_stamp: String,
+                  _backup_path: String) {
     unimplemented!()
 } 

@@ -12,50 +12,45 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-// MongoDB connection and collection helper functions.
+// SQLite interface library.
 
-// use mongodb::{Client, ThreadedClient, db::ThreadedDatabase};
+extern crate rusqlite;
 
+use rusqlite::{Connection, Result, NO_PARAMS};
 
-// struct DataBase {
-//     collection_name: String,
-//     document: String,
-//     group_name: String,
+fn main() -> Result<()> {
+    let mut conn = Connection::open("cats.db")?;
 
-// }
+    successful_tx(&mut conn)?;
 
-// impl DataBase {
+    let res = rolled_back_tx(&mut conn);
+    assert!(res.is_err());
 
-//     fn new(&self) {
-//         Client::connect("127.0.0.1", 27107).expect("Could not connect to database.");
-//     }
+    Ok(())
+}
 
-//     pub fn create_db(&self) {
-//         let db_conn = db_connect();
-//         let db = db_conn.client("system_backups");
-//         let collection = db.collection("system_catalogs");
-//     }
+pub fn initdb() -> Result<(Connection)> {
+    let conn = Connection::open("graphene.db")?;
+    conn 
+}
 
-//     pub fn insert_db(collection_name: String, document: String) {
-//         // insert new documents into the database.
-//         // example: insert_one(doc!{ "title": "Back to the Future" }, None).unwrap();
-//         unimplemented!()
-//     }
+fn successful_tx(conn: &mut Connection) -> Result<()> {
+    let tx = conn.transaction()?;
 
-//     pub fn update_db(collection_name: String, document: String) -> Result<()> {
-//         // updatedb takes a collection name and document to be inserted
-//         // into the database.
-//         // document example: doc!{ "title" => "Ferris Bueller’s Day Off" };
-//         unimplemented!()
-//     }
+    tx.execute("delete from cat_colors", NO_PARAMS)?;
+    tx.execute("insert into cat_colors (name) values (?1)", &[&"lavender"])?;
+    tx.execute("insert into cat_colors (name) values (?1)", &[&"blue"])?;
 
-//     pub fn delete_db_collection() {
-//         // delete a specified database collection.
-//         unimplemented!()
-//     }
+    tx.commit()
+}
 
-//     pub fn query_db_collection() {
-//         // query a given document.
-//         unimplemented!()
-//     }
-// }
+fn rolled_back_tx(conn: &mut Connection) -> Result<()> {
+    let tx = conn.transaction()?;
+
+    tx.execute("delete from cat_colors", NO_PARAMS)?;
+    tx.execute("insert into cat_colors (name) values (?1)", &[&"lavender"])?;
+    tx.execute("insert into cat_colors (name) values (?1)", &[&"blue"])?;
+    tx.execute("insert into cat_colors (name) values (?1)", &[&"lavender"])?;
+
+    tx.commit()
+}

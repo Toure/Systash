@@ -52,6 +52,7 @@ trait Recover {
     fn build_recovery_image(&self) -> Result<(), Error>;
 }
 
+#[allow(unused_variables)]
 impl Backup for DataManager{
 
     fn new(root_name: String, hostname: String, backup_type: String, system_group: String,
@@ -67,9 +68,9 @@ impl Backup for DataManager{
     fn backup(&self) -> Result<(), Error> {
                 let archive_name = format!("{}.tar.gz", self.hostname);
                 let tar_gz = File::create(archive_name)?;
-                let enc = GzEncoder::new(tar_gz, Compression::default());
+                let enc = GzEncoder::new(tar_gz, Compression::new(3)); // new allows for various levels of compression.
                 let mut tar = tar::Builder::new(enc);
-                tar.append_dir_all(self.root_name, self.storage_path).unwrap();
+                tar.append_dir_all(&self.root_name, &self.storage_path).unwrap();
 
             Ok(())
     }
@@ -92,7 +93,7 @@ impl Restore for DataManager{
         let tar_gz = File::open(restore_file)?;
         let tar = GzDecoder::new(tar_gz);
         let mut archive = Archive::new(tar);
-        archive.unpack(self.storage_path)?;
+        archive.unpack(&self.storage_path)?;
 
         Ok(())
     }

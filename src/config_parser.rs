@@ -31,7 +31,7 @@ struct Config {
     hostname: String,
     backup_type: String,
     system_group: String,
-    backup_storage_location: String
+    storage_location: String,
     backup_path: String
 }
 
@@ -46,7 +46,7 @@ impl Parser for Config{
         unimplemented!()
     }
 
-    fn parser() -> Result<BTreeMap, Err> {
+    fn parser(&self) -> Result<BTreeMap, Err> {
         // Create a path to the desired file
         let path = Path::new("foo.yml");
         let display = path.display();
@@ -59,7 +59,6 @@ impl Parser for Config{
                                                     why.description()),
             Ok(file) => file,
         };
-
         // Read the file contents into a string, returns `io::Result<usize>`
         let mut s = String::new();
         let content: BTreeMap<String, String> = match file.read_to_string(&mut s) {
