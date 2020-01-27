@@ -34,9 +34,9 @@ $ cd Systash
 $ cargo build --relase
 $ cargo install
 ```
-Edit the inventory file: (with your favortie editor)
+Edit the configuration file: (with your favortie editor)
 
-### Example Content:
+### Example Content [systash.conf]:
 
 ```
 [Server]
