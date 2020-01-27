@@ -25,7 +25,6 @@ Systash uses a number of open source projects to work properly:
 
 ### Installation
 
-Systash requires [Ansible](https://www.ansible.com/) v2.5+ to run.
 
 Install:
 
