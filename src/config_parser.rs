@@ -15,49 +15,60 @@
 // Config parser will allow for default values to be set from a configuration file,
 // such as inventory list, backup schedule, and other features as they are developed.
 extern crate toml;
+extern crate serde_derive;
+extern crate serde;
 
-
+use serde_derive::Deserialize;
+use std::collections::HashMap;
 use std::io::prelude::*;
 use std::io::BufReader;
 use std::fs::File;
-use toml::Value;
+use std::error::Error;
 
-
+#[derive(Deserialize)]
 struct Config {
-    debug: Bool,
-    backup_type: String,
-    storage_location: String,
-    backup_path: String
-    server: Server,
-    clients: Vec<Client>
+    logging: HashMap<String, String>,
+    backup_path: Backup,
+    storage: Storage
 }
 
-struct Server {
-    hostname: String,
-    ip: String,
+#[derive(Deserialize)]
+struct Backup {
+    base_dir: String,
+    exclude_dir: Vec<String>,
     system_group: String
 }
 
-struct Client {
-    hostname: String,
+#[derive(Deserialize)]
+struct Storage {
+    archives: String,
+    host: String,
+    backend: String,
     ip: String,
-    system_group: String
+    remote_mount_point: String
 }
 
-
-pub fn config(filename: &str) -> Config {
-    // config will return a Config struct populated
-    // with data from the configuration file.
-    let token = ["debug", "server", "clients", "storage", "exclude_dir"]
-
+fn main() {
+    let file = "config/systash.toml";
+    let output = read_config(&file);
+    let to_find = ["logging", "backup_path", "storage"];
+    for member in &to_find {
+        match output.member {
+            Some(element) => println!("{}", element),
+            None => println!("{} can not be found", member)
+        }
+    }
 }
 
-fn read_config(filename: &str) -> toml::value::Value {
-    let fh = File::open(filename).expect("unable to open file.");
-    let mut buf_reader = BufReader::new(fh);
+fn read_config(filename: &str) -> Config {
+    let file = match File::open(&filename) {
+        Err(why) => panic!("couldn't open {}: {}", &filename,
+                                                   why.description()),
+        Ok(file) => file,
+    };
+    let mut buf_reader = BufReader::new(file);
     let mut contents = String::new();
     buf_reader.read_to_string(&mut contents).unwrap();
-    let settings: Value = toml::from_str(&contents).unwrap();
-    settings
+    let package_info: Config = toml::from_str(&contents).unwrap();
+    package_info
 }
-

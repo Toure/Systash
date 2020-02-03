@@ -18,29 +18,15 @@ extern crate rusqlite;
 
 use rusqlite::{Connection, Result, NO_PARAMS};
 
-fn main() -> Result<()> {
-    let mut conn = Connection::open("cats.db")?;
 
-    successful_tx(&mut conn)?;
-
-    let res = rolled_back_tx(&mut conn);
-    assert!(res.is_err());
-
-    Ok(())
-}
-
-pub fn initdb() -> Result<(Connection)> {
+pub fn connectdb() -> Result<(Connection)> {
     let conn = Connection::open("graphene.db")?;
-    conn 
+    Ok(conn)
 }
 
-fn successful_tx(conn: &mut Connection) -> Result<()> {
+fn updatedb(conn: &mut Connection) -> Result<()> {
     let tx = conn.transaction()?;
-
-    tx.execute("delete from cat_colors", NO_PARAMS)?;
-    tx.execute("insert into cat_colors (name) values (?1)", &[&"lavender"])?;
-    tx.execute("insert into cat_colors (name) values (?1)", &[&"blue"])?;
-
+    tx.execute("")
     tx.commit()
 }
 

@@ -1,0 +1,19 @@
+[logging]
+debug = "false"
+
+[backup_path]
+# default backup path.
+base_dir = "/"
+# ignore a specific set of paths.
+exclude_dir = ["/proc", "/sys", "/dev"]
+system_group = "FO_North_01"
+
+[storage]
+# storage path for backup images.
+archives = "/foo/storage"
+# host information for remote storage.
+host = "central_store"
+# backend service "NFS, CIFS, iSCSI"
+backend = "nfs"
+ip = "192.168.2.254"
+remote_mount_point = "/bar/storage"
