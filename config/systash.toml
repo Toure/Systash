@@ -1,5 +1,6 @@
 [logging]
-debug = "false"
+# loglevels are info, debug to logs
+loglevel = "info"
 
 [backup_path]
 # default backup path.
@@ -14,6 +15,6 @@ archives = "/foo/storage"
 # host information for remote storage.
 host = "central_store"
 # backend service "NFS, CIFS, iSCSI"
-backend = "nfs"
+protocol = "nfs"
 ip = "192.168.2.254"
 remote_mount_point = "/bar/storage"

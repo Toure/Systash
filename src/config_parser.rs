@@ -25,6 +25,7 @@ use std::io::BufReader;
 use std::fs::File;
 use std::error::Error;
 
+
 #[derive(Deserialize)]
 struct Config {
     logging: HashMap<String, String>,
@@ -43,24 +44,15 @@ struct Backup {
 struct Storage {
     archives: String,
     host: String,
-    backend: String,
+    protocol: String,
     ip: String,
     remote_mount_point: String
 }
 
-fn main() {
-    let file = "config/systash.toml";
-    let output = read_config(&file);
-    let to_find = ["logging", "backup_path", "storage"];
-    for member in &to_find {
-        match output.member {
-            Some(element) => println!("{}", element),
-            None => println!("{} can not be found", member)
-        }
-    }
-}
 
-fn read_config(filename: &str) -> Config {
+pub fn read_config(filename: &str) -> Config {
+    // read config will filename with path and return a Config struct
+    // with populated members.
     let file = match File::open(&filename) {
         Err(why) => panic!("couldn't open {}: {}", &filename,
                                                    why.description()),
@@ -68,7 +60,10 @@ fn read_config(filename: &str) -> Config {
     };
     let mut buf_reader = BufReader::new(file);
     let mut contents = String::new();
-    buf_reader.read_to_string(&mut contents).unwrap();
+    match buf_reader.read_to_string(&mut contents) {
+        Err(why) => panic!("could not read: {}", why.description()),
+        Ok(_) => ()
+    }
     let package_info: Config = toml::from_str(&contents).unwrap();
     package_info
 }

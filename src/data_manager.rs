@@ -23,89 +23,25 @@ use std::io::Error;
 use tar::Archive;
 
 
-struct DataManager{
-    root_name: String,
-    hostname: String,
-    backup_type: String,
-    system_group: String,
-    backup_storage_location: String,
-    storage_path: String,
-}
 
-trait Backup {
-    fn new(root_name: String, hostname: String, backup_type: String, system_group: String,
-        backup_storage_location: String, storage_path: String) -> DataManager;
 
-    fn backup(&self) -> Result<(), Error>;
-}
-
-trait Restore {
-    fn new(root_name: String, hostname: String, backup_type: String, system_group: String,
-        backup_storage_location: String, storage_path: String ) -> DataManager;
-
-    fn restore(&self) -> Result<(), Error>;
-
-}
-
-trait Recover {
-    fn new(&self) -> DataManager;
-    fn build_recovery_image(&self) -> Result<(), Error>;
-}
-
-#[allow(unused_variables)]
-impl Backup for DataManager{
-
-    fn new(root_name: String, hostname: String, backup_type: String, system_group: String,
-               backup_storage_location: String, storage_path: String) -> DataManager
-               {
-                   // Entire point for backup struct implementation.
-                   DataManager{
-                       root_name, hostname, backup_type, system_group,
-                               backup_storage_location, storage_path
-                   }
-    }
-
-    fn backup(&self) -> Result<(), Error> {
-                let archive_name = format!("{}.tar.gz", self.hostname);
-                let tar_gz = File::create(archive_name)?;
-                let enc = GzEncoder::new(tar_gz, Compression::new(3)); // new allows for various levels of compression.
-                let mut tar = tar::Builder::new(enc);
-                tar.append_dir_all(&self.root_name, &self.storage_path).unwrap();
-
-            Ok(())
-    }
-}
-
-impl Restore for DataManager{
-
-    fn new(root_name: String, hostname: String, backup_type: String, system_group: String,
-        backup_storage_location: String, storage_path: String ) -> DataManager
-        {
-            // Entire point for restore struct implementation.
-            DataManager{
-                root_name, hostname, backup_type, system_group,
-                        backup_storage_location, storage_path
-            }
-    }
-    
-    fn restore(&self) -> Result<(), Error> {
-        let restore_file = format!("{}/{}.tar.gz", self.backup_storage_location, self.hostname);
-        let tar_gz = File::open(restore_file)?;
-        let tar = GzDecoder::new(tar_gz);
-        let mut archive = Archive::new(tar);
-        archive.unpack(&self.storage_path)?;
+pub fn backup(host_label: String, base_dir: String, archive_path: String) -> Result<(), Error> {
+            let archive_name = format!("{}.tar.gz", host_label);
+            let tar_gz = File::create(archive_name)?;
+            let enc = GzEncoder::new(tar_gz, Compression::new(3)); // new allows for various levels of compression.
+            let mut tar = tar::Builder::new(enc);
+            tar.append_dir_all(base_dir, archive_path).unwrap();
 
         Ok(())
-    }
 }
 
-#[allow(dead_code)]
-impl Recover for DataManager{
-    fn new(&self) -> DataManager {
-        unimplemented!()
-    }
 
-    fn build_recovery_image(&self) -> Result<(), Error> {
-        unimplemented!()
-    }
+fn restore(host_label: String, ) -> Result<(), Error> {
+    let restore_file = format!("{}/{}.tar.gz", self.backup_storage_location, self.hostname);
+    let tar_gz = File::open(restore_file)?;
+    let tar = GzDecoder::new(tar_gz);
+    let mut archive = Archive::new(tar);
+    archive.unpack(&self.storage_path)?;
+
+    Ok(())
 }
