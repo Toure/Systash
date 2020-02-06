@@ -16,17 +16,17 @@ extern crate structopt;
 use std::path::PathBuf;
 use structopt::StructOpt;
 
-#[derive(StructOpt, Debug)]
-pub enum ServiceType {
-    Server {
-        ip_address: String,
-        port: String
-    },
-    Client {
-        ip_address: String,
-        port: String
-    }
-}
+// #[derive(StructOpt, Debug)]
+// pub enum ServiceType {
+//     Server {
+//         ip_address: String,
+//         port: String
+//     },
+//     Client {
+//         ip_address: String,
+//         port: String
+//     }
+// }
 
 #[derive(StructOpt, Debug)]
 #[structopt(name = "Systash")]
@@ -52,7 +52,7 @@ pub struct Opt {
     #[structopt(short ="i", long = "recovery_image")]
     pub build_recovery: bool,
 
-    // Storage path will define the path where the im
+    // Storage path will define the path where the image is written.
     /// Storage path for backup and recovery images.
     #[structopt(short = "o", long = "output", parse(from_os_str))]
     pub storage_path: PathBuf,
@@ -62,7 +62,7 @@ pub struct Opt {
     pub backup_path: Vec<PathBuf>,
 
     /// Timestamp for which to recovery from.
-    #[structopt(short = "t", long = "timestamp")]
+    #[structopt(short = "ts", long = "timestamp")]
     pub timestamp: String,
 
     /// System label or node name to attach to the backup image.
@@ -75,21 +75,17 @@ pub struct Opt {
     #[structopt(short = "s", long = "system_group")]
     pub system_group: String,
 
-    /// Boot loader type [ GRUB or GRUB2 ]
-    #[structopt(short = "B", long = "bootloader")]
-    pub boot_loader: String,
-
     // Backup type will allow for a full system back up or
     // differential. Default should be differential for
     // time and resource efficiencies.
     /// Backup Type [ Full or Differential ]
-    #[structopt(short = "T", long = "type")]
+    #[structopt(short = "bt", long = "type")]
     pub backup_type: String,
 
-    // Service Type will be a switch to allow the activation
-    // of a server (API service) or a client (API consumer)
-    /// Service Type selector [ stand-alone, server, client ] if
-    /// none are provided stand-alone is default.
-    #[structopt(subcommand)]
-    pub service_type: ServiceType
+    // // Service Type will be a switch to allow the activation
+    // // of a server (API service) or a client (API consumer)
+    // /// Service Type selector [ stand-alone, server, client ] if
+    // /// none are provided stand-alone is default.
+    // #[structopt(subcommand)]
+    // pub service_type: ServiceType
 }

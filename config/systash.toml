@@ -18,3 +18,10 @@ host = "central_store"
 protocol = "nfs"
 ip = "192.168.2.254"
 remote_mount_point = "/bar/storage"
+
+[services]
+# service list will allow systash to manage the services
+# prior to performing a backup.
+service_list = ["httpd", "mysqld"]
+# behaviour specifies either standard service or containerized.
+behaviour = "standard"

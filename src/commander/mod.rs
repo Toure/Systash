@@ -41,3 +41,31 @@ pub fn ansible_exec() {
     // the command line utiliy to carry out predefined roles.
     unimplemented!()
 }
+
+#[allow(dead_code)]
+pub fn service_manager(name: String, personality: String, state: String) {
+    // Service manager will walk a list of provided services and
+    // change its state and return new state.
+    unimplemented!()
+}
+
+#[allow(dead_code)]
+fn container_manager(name: String, state: String) {
+    // Container will change state of given container and
+    // return state.
+    unimplemented!()
+}
+
+#[allow(dead_code)]
+fn container_type() {
+    // Container type returns command line utility
+    // name, either podman or docker.
+    unimplemented!()
+}
+
+#[allow(dead_code)]
+fn systemctl(name: String, state: String) {
+    // System control will function similar to linux
+    // native command utility and return state.
+    unimplemented!()
+}

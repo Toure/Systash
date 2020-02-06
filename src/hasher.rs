@@ -36,7 +36,11 @@ fn sha256_digest<R: Read>(mut reader: R) -> Result<Digest, Error> {
 }
 
 pub fn gen_sum(filename: String) -> Result<(), Error> {
-    let input = File::open(filename)?;
+    let input = match File::open(filename) {
+        Err(why) => panic!("couldn't open {}: {}", &filename,
+                                                   why.description()),
+        Ok(input) => input,
+    };
     let reader = BufReader::new(input);
     let digest = sha256_digest(reader)?;
 

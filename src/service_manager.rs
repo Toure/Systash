@@ -12,4 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-// OpenShift Api module for Systash.
+// Service manager will stop and start services based on list provided
+// by the configuration and the type of service. 
+// example:
+// [services]
+//  service_list = ["httpd", "mysql"]
+//  behaviour = "standard" # two suported types "standard" or "containerized"
+mod commander;
+

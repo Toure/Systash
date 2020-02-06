@@ -1,1 +1,0 @@
-#### Systash api client crate for OpenShift.

@@ -25,23 +25,23 @@ use tar::Archive;
 
 
 
-pub fn backup(host_label: String, base_dir: String, archive_path: String) -> Result<(), Error> {
-            let archive_name = format!("{}.tar.gz", host_label);
-            let tar_gz = File::create(archive_name)?;
-            let enc = GzEncoder::new(tar_gz, Compression::new(3)); // new allows for various levels of compression.
+pub fn backup(archive_name: String, archive_base_dir: String, archive_path: String) -> Result<(), Error> {
+            let file = format!("{}.tar.gz", archive_name);
+            let file_handle = File::create(file)?;
+            let enc = GzEncoder::new(file_handle, Compression::new(3)); // new allows for various levels of compression.
             let mut tar = tar::Builder::new(enc);
-            tar.append_dir_all(base_dir, archive_path).unwrap();
+            tar.append_dir_all(archive_base_dir, archive_path).unwrap();
 
         Ok(())
 }
 
 
-fn restore(host_label: String, ) -> Result<(), Error> {
-    let restore_file = format!("{}/{}.tar.gz", self.backup_storage_location, self.hostname);
-    let tar_gz = File::open(restore_file)?;
-    let tar = GzDecoder::new(tar_gz);
+pub fn restore(archive_name: String, storage_path: String) -> Result<(), Error> {
+    let file = format!("{}/{}.tar.gz", storage_path, archive_name);
+    let file_handle = File::open(file)?;
+    let tar = GzDecoder::new(file_handle);
     let mut archive = Archive::new(tar);
-    archive.unpack(&self.storage_path)?;
+    archive.unpack(&storage_path)?;
 
     Ok(())
 }

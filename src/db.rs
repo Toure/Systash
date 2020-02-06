@@ -19,9 +19,16 @@ extern crate rusqlite;
 use rusqlite::{Connection, Result, NO_PARAMS};
 
 
-pub fn connectdb() -> Result<(Connection)> {
-    let conn = Connection::open("graphene.db")?;
+pub fn connectdb(db_filename: String) -> Result<(Connection)> {
+    let conn = Connection::open(db_filename)?;
     Ok(conn)
+}
+
+pub fn initdb(conn: &mut Connection) -> Result<()> {
+    let tx = conn.transaction()?;
+    tx.execute(" create table if not exists backups(
+        id integer primary key,
+        ")
 }
 
 fn updatedb(conn: &mut Connection) -> Result<()> {
@@ -32,11 +39,6 @@ fn updatedb(conn: &mut Connection) -> Result<()> {
 
 fn rolled_back_tx(conn: &mut Connection) -> Result<()> {
     let tx = conn.transaction()?;
-
-    tx.execute("delete from cat_colors", NO_PARAMS)?;
-    tx.execute("insert into cat_colors (name) values (?1)", &[&"lavender"])?;
-    tx.execute("insert into cat_colors (name) values (?1)", &[&"blue"])?;
-    tx.execute("insert into cat_colors (name) values (?1)", &[&"lavender"])?;
-
+    tx.execute("")
     tx.commit()
 }
